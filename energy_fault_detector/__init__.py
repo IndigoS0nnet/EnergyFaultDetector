@@ -2,6 +2,11 @@
 
 import os
 
+# TensorFlow 2.16+ defaults to Keras 3, which requires `.keras`/`.h5` save
+# extensions. Our on-disk format uses `.model`/`.encoder`, so stay on Keras 2
+# via the tf-keras shim. Must be set before any `import tensorflow`.
+os.environ.setdefault("TF_USE_LEGACY_KERAS", "1")
+
 from energy_fault_detector.registration import registry, register
 from energy_fault_detector.fault_detector import FaultDetector
 from energy_fault_detector.config import Config

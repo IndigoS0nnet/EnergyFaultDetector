@@ -229,7 +229,7 @@ class TestFaultDetector(unittest.TestCase):
         tune_results = fault_detector.tune(sensor_data=self.sensor_data, normal_index=self.normal_index,
                                            new_learning_rate=0.001, tune_epochs=1, tune_method='full',
                                            save_models=False)
-        mock_autoencoder.tune.called_once()
+        mock_autoencoder.tune.assert_called_once()
 
         mock_data_preprocessor.transform.side_effect = [self.sensor_data[self.normal_index],
                                                         self.sensor_data]
@@ -237,7 +237,7 @@ class TestFaultDetector(unittest.TestCase):
         tune_results = fault_detector.tune(sensor_data=self.sensor_data, normal_index=self.normal_index,
                                            new_learning_rate=0.001, tune_epochs=1, tune_method='decoder',
                                            save_models=False)
-        mock_autoencoder.tune_decoder.called_once()
+        mock_autoencoder.tune_decoder.assert_called_once()
 
     @patch('energy_fault_detector.fault_detector.Arcana.find_arcana_bias')
     def test_predict(self, mock_find_arcana_bias):

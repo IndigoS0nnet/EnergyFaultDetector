@@ -24,8 +24,13 @@ class TestQuickFaultDetectionConfiguration(unittest.TestCase):
                                angles=['angle'],
                                automatic_optimization=False)
 
-        self.assertListEqual(config['train']['data_preprocessor']['params']['angles'], ['angle'])
-        self.assertListEqual(config['train']['data_preprocessor']['params']['features_to_exclude'], ['exclude_feature'])
+        steps = config['train']['data_preprocessor']['steps']
+        steps_by_name = {step['name']: step for step in steps}
+        self.assertIn('column_selector', steps_by_name)
+        self.assertListEqual(steps_by_name['column_selector']['params']['features_to_exclude'], ['exclude_feature'])
+        self.assertIn('angle_transformer', steps_by_name)
+        self.assertListEqual(steps_by_name['angle_transformer']['params']['angles'], ['angle'])
+
         self.assertEqual(config['train']['autoencoder']['params']['code_size'], expected_code_size)
         self.assertListEqual(config['train']['autoencoder']['params']['layers'], expected_layers)
         self.assertEqual(config['train']['threshold_selector']['params']['quantile'], 0.99)

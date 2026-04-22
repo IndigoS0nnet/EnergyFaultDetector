@@ -27,6 +27,7 @@ dist/
 # tests
 .pytest_cache/
 test_report.xml
+tests/test_data/dummy_csv_*.csv
 
 # data
 *.pkl
